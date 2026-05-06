@@ -1,0 +1,6 @@
+{
+  "name": "Infinite Descent",
+  "description": "An infinite recursive website game powered by procedural generation and URL hashing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
