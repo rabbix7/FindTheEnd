@@ -49,32 +49,17 @@
       font-weight: bold;
     }
 
-    .breadcrumbs {
+    .quote-display {
       background: rgba(0, 0, 0, 0.4);
       padding: 1rem;
       border-radius: 6px;
       font-family: 'Courier New', Courier, monospace;
-      font-size: 0.85rem;
-      margin-bottom: 1rem;
-      color: #4ade80;
-      border-left: 4px solid #4ade80;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    .breadcrumb-item {
-      opacity: 0.8;
-    }
-    .breadcrumb-item:last-child {
-      opacity: 1;
-      font-weight: bold;
-      color: #fff;
-    }
-    
-    .breadcrumb-separator {
-      color: #777;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      color: #7dd3fc;
+      border-left: 4px solid #7dd3fc;
+      font-style: italic;
+      line-height: 1.5;
     }
 
     .message {
@@ -172,8 +157,8 @@
     <h2 id="pageTitle" style="margin-top:0; font-size: 1.2rem; opacity: 0.7; font-weight: 300;"></h2>
     <div id="highScore" style="display: none; margin-bottom: 1.5rem; color: #a855f7; font-weight: bold; background: rgba(168, 85, 247, 0.1); padding: 0.8rem; border-radius: 6px; border-left: 3px solid #a855f7;"></div>
     <div id="secretMessage" class="message">The end is further than you thought.</div>
-    <p id="pathText">Current coordinates locked. Path signature:</p>
-    <div id="breadcrumbs" class="breadcrumbs"></div>
+    <p id="quoteHeader" style="margin-bottom: 0.5rem; opacity: 0.8; font-size: 0.9rem;">System log entry:</p>
+    <div id="quoteDisplay" class="quote-display"></div>
     <p id="chooseText">Choose your descent path:</p>
     <div id="doors" class="doors-container"></div>
   </div>
@@ -208,6 +193,33 @@
       "Specter", "Oblivion", "Fractal", "Aether", "Mirage", "Phantom", "Singularity", "Solitude", "Nihil", "Tesseract",
       "Tenebris", "Umbra", "Limbo", "Eidolon", "Miasma", "Revenant", "Silence", "Tomb", "Cipher", "Enigma",
       "Paradox", "Anomaly", "Stigma", "Catalyst", "Nexus", "Atrophy", "Entropy", "Gloom", "Penumbra", "Voidscape"
+    ];
+    const phrases = [
+      "Every step forward is a step into the unknown.",
+      "The depths reward those who keep moving.",
+      "Do not look back; the path behind is dissolving.",
+      "Find comfort in the endless descent.",
+      "There is no bottom, only further.",
+      "To stop is to be consumed by the silence.",
+      "What you seek is always one door away.",
+      "The abyss is simply a mirror.",
+      "Embrace the vertiginous pull.",
+      "A labyrinth has no center, only choices.",
+      "Walk until the concept of 'home' is forgotten.",
+      "The end is a concept designed to limit you.",
+      "Fear is the rust that locks the doors.",
+      "You are further than anyone has ever been.",
+      "Keep descending; the light is just an illusion.",
+      "The void is full of answers if you know how to listen.",
+      "We fall so that we may learn how to float.",
+      "Every door is a question. What is your answer?",
+      "It is dark only because your eyes are closed.",
+      "Lost is just another word for exploring.",
+      "The only way out is through, but 'through' is infinite.",
+      "Do not trust the echoes. Trust the descent.",
+      "Your persistence is a beacon in the dark.",
+      "Even the abyss eventually yields to gravity.",
+      "Rest is a luxury the descending cannot afford."
     ];
     const fonts = ['"Helvetica Neue", sans-serif', 'Georgia, serif', '"Courier New", monospace', '"Times New Roman", serif', 'Impact, sans-serif'];
 
@@ -304,29 +316,14 @@
         terminal.classList.remove('scrambled');
       }
 
-      // Breadcrumbs
-      const breadcrumbsContainer = document.getElementById('breadcrumbs');
-      breadcrumbsContainer.innerHTML = '';
-      let cumulativePath = '#';
-      segments.forEach((seg, index) => {
-        cumulativePath += '/' + seg;
-        
-        const span = document.createElement('span');
-        span.className = 'breadcrumb-item';
-        // if punished, scramble the breadcrumbs too
-        span.textContent = isPunished ? scramble(seg) : seg;
-        breadcrumbsContainer.appendChild(span);
-
-        if (index < segments.length - 1) {
-          const sep = document.createElement('span');
-          sep.className = 'breadcrumb-separator';
-          sep.textContent = isPunished ? scramble('>') : '>';
-          breadcrumbsContainer.appendChild(sep);
-        }
-      });
+      // Quotes
+      const quoteHeaderStr = "System log entry:";
+      document.getElementById('quoteHeader').textContent = isPunished ? scramble(quoteHeaderStr) : quoteHeaderStr;
+      
+      const selectedQuote = phrases[Math.floor(rng() * phrases.length)];
+      document.getElementById('quoteDisplay').textContent = isPunished ? scramble(selectedQuote) : selectedQuote;
       
       // Scramble static texts if punished
-      document.getElementById('pathText').textContent = isPunished ? scramble("Current coordinates locked. Path signature:") : "Current coordinates locked. Path signature:";
       document.getElementById('chooseText').textContent = isPunished ? scramble("Choose your descent path:") : "Choose your descent path:";
 
       // 4. Procedural Visuals
